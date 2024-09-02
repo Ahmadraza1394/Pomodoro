@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pomodoro Timer</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background: linear-gradient(135deg, #ff8a00, #e52e71);
+        font-family: "Roboto", sans-serif;
+      }
+      .timer-container {
+        background-color: white;
+        padding: 20px;
+        border-radius: 20px;
+        box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.1);
+        max-width: 400px;
+        width: 100%;
+        text-align: center;
+      }
+      .timer {
+        font-size: 4rem;
+        font-weight: bold;
+        color: #ff8a00;
+        letter-spacing: 2px;
+        margin-bottom: 20px;
+      }
+      .button {
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: bold;
+        transition: all 0.3s ease;
+      }
+      .button-start {
+        background-color: #00c853;
+        color: white;
+      }
+      .button-start:hover {
+        background-color: #00b74a;
+      }
+      .button-pause {
+        background-color: #ffa726;
+        color: white;
+      }
+      .button-pause:hover {
+        background-color: #fb8c00;
+      }
+      .button-reset {
+        background-color: #d50000;
+        color: white;
+      }
+      .button-reset:hover {
+        background-color: #c20000;
+      }
+      .settings input {
+        width: 50px;
+        padding: 6px;
+        margin-left: 10px;
+        text-align: center;
+        border-radius: 8px;
+        border: 2px solid #ff8a00;
+        transition: all 0.3s ease;
+      }
+      .settings input:focus {
+        border-color: #e52e71;
+        outline: none;
+      }
+      .settings span {
+        display: inline-block;
+        margin-top: 10px;
+      }
+      /* Progress Indicator */
+      #progressCircle {
+        position: relative;
+        width: 180px;
+        height: 180px;
+        margin: 0 auto;
+      }
+      #progress {
+        transition: stroke-dashoffset 0.5s ease;
+        transform: rotate(-90deg);
+        transform-origin: 50% 50%;
+      }
+      .timer-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 2.5rem;
+        color: #ff8a00;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body class="flex flex-col items-center justify-center min-h-screen">
+    <div
+      class="timer-container mt-4 mb-16 max-w-lg mx-auto bg-white p-16 rounded-lg shadow-xl text-center"
+    >
+      <h1 class="text-5xl font-bold text-gray-800 tracking-wide">
+        Pomodoro Timer
+      </h1>
+
+      <!-- Mode Indicator -->
+      <div id="modeIndicator" class="text-2xl font-semibold text-gray-700">
+        Work Time
+      </div>
+
+      <!-- Progress Circle -->
+      <div id="progressCircle">
+        <svg class="w-full h-full" viewBox="0 0 100 100">
+          <circle
+            cx="50"
+            cy="50"
+            r="35"
+            fill="none"
+            stroke="#e5e7eb"
+            stroke-width="10"
+          />
+          <circle
+            id="progress"
+            cx="50"
+            cy="50"
+            r="35"
+            fill="none"
+            stroke="#3b82f6"
+            stroke-width="10"
+            stroke-dasharray="283"
+            stroke-dashoffset="283"
+          />
+        </svg>
+        <div id="timer" class="timer-text">25:00</div>
+      </div>
+
+      <div class="flex justify-center space-x-4">
+        <button
+          id="start"
+          class="button button-start bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md transform hover:scale-105 transition-transform"
+        >
+          Start
+        </button>
+        <button
+          id="pause"
+          class="button button-pause bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md transform hover:scale-105 transition-transform"
+        >
+          Pause
+        </button>
+        <button
+          id="reset"
+          class="button button-reset bg-red-500 hover:bg-red-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md transform hover:scale-105 transition-transform"
+        >
+          Reset
+        </button>
+      </div>
+
+      <div
+        id="settings"
+        class="settings text-gray-700 flex justify-center space-x-6 mt-4"
+      >
+        <div class="flex flex-col items-center">
+          <label for="workTime" class="mb-2 text-lg font-medium text-gray-800"
+            >Work Time</label
+          >
+          <input
+            type="number"
+            id="workTime"
+            value="25"
+            class="text-lg text-center w-16 p-2 border-2 border-indigo-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-300"
+          />
+          <span class="text-sm text-gray-600 mt-1">minutes</span>
+        </div>
+        <div class="flex flex-col items-center">
+          <label for="breakTime" class="mb-2 text-lg font-medium text-gray-800"
+            >Break Time</label
+          >
+          <input
+            type="number"
+            id="breakTime"
+            value="5"
+            class="text-lg text-center w-16 p-2 border-2 border-indigo-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-300"
+          />
+          <span class="text-sm text-gray-600 mt-1">minutes</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Daily Report Section -->
+    <div class="w-full max-w-2xl bg-white p-8 rounded-lg shadow-lg mb-10">
+      <h2 class="text-2xl font-semibold mb-4 text-gray-800 text-center">
+        Track Report of Past 10 Days
+      </h2>
+
+      <canvas id="dailyChart" class="mb-6"></canvas>
+      <div id="dailyReport" class="text-gray-700 text-lg mt-4"></div>
+    </div>
+
+    <audio
+      id="notificationSound"
+      src="mixkit-confirmation-tone-2867.wav"
+      preload="auto"
+    ></audio>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
